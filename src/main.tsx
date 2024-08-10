@@ -17,17 +17,35 @@ async function bootstrap() {
     await setupMock();
   }
 
-  ReactDOM.createRoot(document.getElementById("root")!).render(
+  const rootEl: HTMLElement = document.querySelector("#root")!;
+  const rootLoadingEl: HTMLElement = document.querySelector(".root-loading")!;
+  ReactDOM.createRoot(rootEl).render(
     <React.StrictMode>
       <CssBaseline />
       <Provider {...store}>
-        <SnackbarProvider maxSnack={5} anchorOrigin={{ horizontal: "center", vertical: 'top'}} autoHideDuration={2000}>
+        <SnackbarProvider
+          maxSnack={5}
+          anchorOrigin={{ horizontal: "center", vertical: "top" }}
+          autoHideDuration={2000}
+        >
           <App />
         </SnackbarProvider>
       </Provider>
     </React.StrictMode>
   );
-}
 
+  // hide root loading
+  rootLoadingEl.classList.add("root-hide");
+  console.time("root loading");
+  rootLoadingEl.onanimationend = () => {
+    console.timeEnd("root loading");
+    // remove root loading
+    rootLoadingEl.classList.contains("root-hide") && rootLoadingEl.remove();
+  };
+
+  // show root
+  rootEl.classList.add("root-show");
+  rootEl.style.display = "";
+}
 
 bootstrap();

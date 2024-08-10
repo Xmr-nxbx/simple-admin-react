@@ -48,7 +48,6 @@ class AdminAxiosRequest {
     
     // request interceptor: add cancel token and remove redundent requests
     this.axios.interceptors.request.use((config) => {
-      console.log(config);
       const requestMapKey = this.getRequestMapKey(config);
       const useCancelToken = (config as unknown as Record<string, Record<string, unknown>>).adminAxiosConfig.useCancelToken;
       const cancelToken = config.cancelToken;
