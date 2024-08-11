@@ -53,25 +53,57 @@
       const randNum = Math.floor(Math.random() * 2 + 3);
       new Array(randNum).fill(null).map(createCircle);
 
-      function createCircle() {
-        const circleEl = document.createElement("div");
-        circleEl.classList.add("root-background-circle");
-        circleEl.classList.add("root-show");
+      let interval = null;
+
+      function calcCircleStyle(el) {
         const radius = Math.random() * 200 + 100;
         const blur = radius / 8;
         const left = Math.random() * 100;
         const top = Math.random() * 100;
         const deg = Math.random() * 180;
 
-        circleEl.style.background = colors[Math.floor(Math.random() * colors.length)];
-        circleEl.style.width = `${radius}px`;
-        circleEl.style.height = `${radius}px`;
-        circleEl.style.left = `${left}%`;
-        circleEl.style.top = `${top}%`;
-        circleEl.style.filter = `blur(${blur}px)`;
-        circleEl.style.transform = `rotate(${deg}deg)`;
+        el.style.background = colors[Math.floor(Math.random() * colors.length)];
+        el.style.width = `${radius}px`;
+        el.style.height = `${radius}px`;
+        el.style.left = `${left}%`;
+        el.style.top = `${top}%`;
+        el.style.filter = `blur(${blur}px)`;
+        el.style.transform = `rotate(${deg}deg)`;
+      }
+
+      function createCircle() {
+        const circleEl = document.createElement("div");
+        circleEl.classList.add("root-background-circle");
+        circleEl.classList.add("root-show");
+
+        calcCircleStyle(circleEl);
 
         document.querySelector(".root-background").appendChild(circleEl);
+      }
+
+      function changeCircle() {
+        const animationend = (e) => {
+          const circleEl = e.target;
+          circleEl.removeEventListener("animationend", animationend);
+          circleEl.remove();
+          calcCircleStyle(circleEl);
+          circleEl.classList.remove("root-hide");
+          circleEl.classList.add("root-show");
+          document.querySelector(".root-background").appendChild(circleEl);
+        };
+        const circleEl = document.querySelector(".root-background-circle");
+        circleEl.classList.remove("root-show");
+        circleEl.classList.add("root-hide");
+        circleEl.addEventListener("animationend", animationend);
+      }
+
+      function startCreateIntervalCircle() {
+        stopCreateIntervalCircle();
+        interval = setInterval(changeCircle, 2000);
+      }
+
+      function stopCreateIntervalCircle() {
+        clearInterval(interval);
       }
     </script>
     <script type="module" src="/src/main.tsx"></script>
@@ -81,6 +113,14 @@
       margin: 0;
       padding: 0;
       box-sizing: border-box;
+    }
+    body {
+      color: rgba(0, 0, 0, 0.87);
+      font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+      font-weight: 400;
+      font-size: 1rem;
+      line-height: 1.5;
+      letter-spacing: 0.00938em;
     }
     .root-background {
       position: fixed;
@@ -161,7 +201,7 @@
     }
     .root-hide {
       opacity: 0;
-      animation: 0.5s ease root-hide-animation;
+      animation: 1s ease root-hide-animation;
     }
     @keyframes root-hide-animation {
       0% {

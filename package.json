@@ -14,6 +14,7 @@
     "@emotion/styled": "^11.13.0",
     "@fontsource/roboto": "^5.0.13",
     "@mui/material": "^5.16.5",
+    "@reactuses/core": "^5.0.19",
     "axios": "^1.7.2",
     "mobx": "^6.13.1",
     "mobx-react": "^9.1.1",
