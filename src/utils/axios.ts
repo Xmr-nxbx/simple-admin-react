@@ -95,7 +95,13 @@ class AdminAxiosRequest {
         return Promise.reject(returnData);
       }
     }, (error: AxiosError) => {
-      const { isTransformData, isDetectStatus } = (error.response?.config as unknown as Record<string, Record<string, unknown>>).adminAxiosConfig;
+      let isTransformData: boolean = true;
+      let isDetectStatus: boolean = true;
+      const adminAxiosConfig = error.response && error.response.config && (error.response.config as unknown as Record<string, unko>).adminAxiosConfig;
+      if (adminAxiosConfig) {
+        isTransformData = adminAxiosConfig['isTransformData'];
+        isDetectStatus = adminAxiosConfig['isDetectStatus']
+      }
 
       // detect online status
       if (!navigator.onLine) {

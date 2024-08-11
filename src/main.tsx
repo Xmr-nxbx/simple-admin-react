@@ -36,9 +36,7 @@ async function bootstrap() {
 
   // hide root loading
   rootLoadingEl.classList.add("root-hide");
-  console.time("root loading");
   rootLoadingEl.onanimationend = () => {
-    console.timeEnd("root loading");
     // remove root loading
     rootLoadingEl.classList.contains("root-hide") && rootLoadingEl.remove();
   };

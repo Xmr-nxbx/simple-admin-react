@@ -9,7 +9,7 @@
   <body>
     <div id="root" style="display: none"></div>
     <div class="root-background">
-      <!-- show loading animation -->
+      <!-- loading animation -->
       <div class="root-loading">
         <div class="root-animation">
           <svg viewBox="50 50 100 100">
@@ -25,7 +25,55 @@
         </div>
         <div class="root-title"><%= title %></div>
       </div>
+      <!-- background blur circle -->
     </div>
+    <script>
+      const colors = [
+        "#e57373",
+        "#f06292",
+        "#ba68c8",
+        "#9575cd",
+        "#7986cb",
+        "#64b5f6",
+        "#4fc3f7",
+        "#4dd0e1",
+        "#4db6ac",
+        "#81c784",
+        "#aed581",
+        "#dce775",
+        "#fff176",
+        "#ffd54f",
+        "#ffb74d",
+        "#ff8a65",
+        "#a1887f",
+        "#e0e0e0",
+        "#90a4ae",
+      ];
+      const backgroundChoice1List = ["linear-gradient()"];
+      const randNum = Math.floor(Math.random() * 2 + 3);
+      new Array(randNum).fill(null).map(createCircle);
+
+      function createCircle() {
+        const circleEl = document.createElement("div");
+        circleEl.classList.add("root-background-circle");
+        circleEl.classList.add("root-show");
+        const radius = Math.random() * 200 + 100;
+        const blur = radius / 8;
+        const left = Math.random() * 100;
+        const top = Math.random() * 100;
+        const deg = Math.random() * 180;
+
+        circleEl.style.background = colors[Math.floor(Math.random() * colors.length)];
+        circleEl.style.width = `${radius}px`;
+        circleEl.style.height = `${radius}px`;
+        circleEl.style.left = `${left}%`;
+        circleEl.style.top = `${top}%`;
+        circleEl.style.filter = `blur(${blur}px)`;
+        circleEl.style.transform = `rotate(${deg}deg)`;
+
+        document.querySelector(".root-background").appendChild(circleEl);
+      }
+    </script>
     <script type="module" src="/src/main.tsx"></script>
   </body>
   <style>
@@ -41,6 +89,10 @@
       left: 0;
       width: 100vw;
       height: 100vh;
+    }
+    .root-background > .root-background-circle {
+      position: absolute;
+      border-radius: 9999px;
     }
     .root-loading {
       position: absolute;
