@@ -55,11 +55,13 @@
 
       let interval = null;
 
+      startCreateIntervalCircle();
+
       function calcCircleStyle(el) {
         const radius = Math.random() * 200 + 100;
         const blur = radius / 8;
-        const left = Math.random() * 100;
-        const top = Math.random() * 100;
+        const left = Math.random() * 80 + 10;
+        const top = Math.random() * 80 + 10;
         const deg = Math.random() * 180;
 
         el.style.background = colors[Math.floor(Math.random() * colors.length)];
@@ -138,6 +140,7 @@
       position: absolute;
       top: 50%;
       left: 50%;
+      z-index: 1;
       transform: translate(-50%, -50%);
       text-align: center;
       display: flex;

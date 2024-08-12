@@ -44,6 +44,7 @@ async function bootstrap() {
   // show root
   rootEl.classList.add("root-show");
   rootEl.style.display = "";
+  (window as unknown as Record<string, ()=>void>).stopCreateIntervalCircle();
 }
 
 bootstrap();
