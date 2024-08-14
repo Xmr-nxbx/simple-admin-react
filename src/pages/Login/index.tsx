@@ -1,13 +1,5 @@
 import { useEffect, useState } from "react";
-import {
-  Button,
-  Container,
-  FormControl,
-  Input,
-  InputLabel,
-  InputAdornment,
-  IconButton,
-} from "@mui/material";
+import { Button, Container, Box, TextField, IconButton } from "@mui/material";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import LockIcon from "@mui/icons-material/Lock";
 import Visibility from "@mui/icons-material/Visibility";
@@ -25,18 +17,14 @@ const LoginPage = () => {
 
   const [showPassword, setShowPassword] = useState(false);
 
-  const handleClickShowPassword = () => setShowPassword((show) => !show);
+  const [username, setUserName] = useState("");
+  const [password, setPassword] = useState("");
 
-  const request = () => {
-    adminAxios
-      .post("/login", { params: { b: 2 }, data: { a: 1 } })
-      .then((res) => {
-        console.log(res);
-      });
-  };
-  useEffect(() => {
-    request();
-  }, []);
+  const handleLogin = () => {
+    adminAxios.post("/login", { data: { username, password } }).then((res) =>{
+      console.log(res);
+    });
+  }
 
   return (
     <>
@@ -45,8 +33,10 @@ const LoginPage = () => {
           <div className="login-view flex-1 flex flex-col justify-center items-center">
             {/* login header */}
             <div className="login-header">
-              <div className="login-title text-2xl sm:text-6xl
-               flex justify-center items-center gap-4 text-gray-800 dark:text-gray-200">
+              <div
+                className="login-title text-2xl sm:text-6xl
+               flex justify-center items-center gap-4 text-gray-800 dark:text-gray-200"
+              >
                 <img
                   className="w-[75px] h-[75px]"
                   src={titleInfo.logo}
@@ -61,42 +51,48 @@ const LoginPage = () => {
             </div>
             {/* login form */}
             <form className="login-form mt-10 flex flex-col gap-4">
-              <FormControl variant="standard" sx={{ width: "300px" }}>
-                <InputLabel htmlFor="login-username">Username</InputLabel>
-                <Input
-                  id="login-username"
-                  startAdornment={
-                    <InputAdornment position="start">
-                      <AccountCircleIcon />
-                    </InputAdornment>
-                  }
+              <Box
+                sx={{ width: "300px", display: "flex", alignItems: "flex-end" }}
+              >
+                <AccountCircleIcon
+                  sx={{ color: "action.active", mr: 1, my: 0.5 }}
                 />
-              </FormControl>
-              <FormControl variant="standard" sx={{ width: "300px" }}>
-                <InputLabel htmlFor="login-password">Password</InputLabel>
-                <Input
-                  id="login-password"
+                <TextField
+                  id="username"
+                  label="Username"
+                  variant="standard"
+                  sx={{ flex: 1 }}
+                  placeholder="Admin"
+                  value={username}
+                  onChange={e => setUserName(e.target.value)}
+                />
+              </Box>
+              <Box
+                sx={{ width: "300px", display: "flex", alignItems: "flex-end" }}
+              >
+                <LockIcon sx={{ color: "action.active", mr: 1, my: 0.5 }} />
+                <TextField
+                  id="password"
+                  label="Password"
+                  variant="standard"
                   type={showPassword ? "text" : "password"}
-                  startAdornment={
-                    <InputAdornment position="start">
-                      <LockIcon />
-                    </InputAdornment>
-                  }
-                  endAdornment={
-                    <InputAdornment position="end">
+                  sx={{ flex: 1 }}
+                  placeholder="123456"
+                  InputProps={{
+                    endAdornment: (
                       <IconButton
-                        aria-label="toggle password visibility"
-                        onClick={handleClickShowPassword}
-                        onMouseDown={(event) => event.preventDefault()}
-                        edge="end"
+                        onClick={() => setShowPassword(!showPassword)}
+                        onMouseDown={(e) => e.preventDefault()}
                       >
                         {showPassword ? <VisibilityOff /> : <Visibility />}
                       </IconButton>
-                    </InputAdornment>
-                  }
+                    ),
+                  }}
+                  value={password}
+                  onChange={e => setPassword(e.target.value)}
                 />
-              </FormControl>
-              <Button variant="contained">
+              </Box>
+              <Button variant="contained" sx={{ width: "300px" }} onClick={handleLogin}>
                 <span className="text-white">Login</span>
               </Button>
             </form>

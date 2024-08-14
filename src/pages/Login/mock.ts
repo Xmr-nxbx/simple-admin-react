@@ -7,6 +7,8 @@ mockRequest({
   method: MockHttpMethod.POST,
   httpCode: MockHttpCode.BadRequest,
   data: ({ query, body }: DataFnParams) => {
-    return ['That is a mock request'];
+    const { username, password } = body;
+    return { username, password};
   },
+  message: 'Login',
 });
